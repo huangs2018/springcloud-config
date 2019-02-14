@@ -1,1 +1,76 @@
-﻿
+﻿spring:
+  profiles:
+    active:
+    - test
+
+info:  # 点击  eureka 中当前项目的Status下的名称，跳转页面的info 信息
+  app.name: yuenproject-provider
+  company.name: yuen #公司名称
+  build.artifactId: $project.artifactId$ #项目名称
+  build.version: $project.version$ #项目版本号
+    
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml        # mybatis配置文件所在路径
+  type-aliases-package: com.yuen.data.entity    # 所有Entity别名类所在包
+  mapper-locations:
+  - classpath:mybatis/mapper/**/*.xml                       # mapper映射文件
+
+
+---  
+server:
+  port: 8001 #端口号
+
+spring:
+   profiles: test
+   application:
+    name: yuenproject-provider01 #注册在Eureka 的名称 
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型 
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    url: jdbc:mysql://39.106.123.146:3306/xinsuodata01?characterEncoding=UTF-8          # 数据库名称
+    username: root
+    password: emc123123
+    dbcp2:
+      min-idle: 5                                           # 数据库连接池的最小维持连接数
+      initial-size: 5                                       # 初始化连接数
+      max-total: 5                                          # 最大连接数
+      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+      
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url: 
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: provider-8001 # 更改  eureka 中 当前 项目的Status的名称
+    prefer-ip-address: true     # 鼠标移动到   eureka 中当前 项目的Status的名称时显示ip
+ 
+--- 
+
+
+server:
+  port: 8002 #端口号
+  
+spring:
+   profiles: dev
+   application:
+    name: yuenproject-provider02 #注册在Eureka 的名称 
+   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型 
+    driver-class-name: org.gjt.mm.mysql.Driver              # mysql驱动包
+    url: jdbc:mysql://39.106.123.146:3306/xinsuodata01?characterEncoding=UTF-8          # 数据库名称
+    username: root
+    password: emc123123
+    dbcp2:
+      min-idle: 5                                           # 数据库连接池的最小维持连接数
+      initial-size: 5                                       # 初始化连接数
+      max-total: 5                                          # 最大连接数
+      max-wait-millis: 200                                  # 等待连接获取的最大超时时间
+      
+eureka:
+  client: #客户端注册进eureka服务列表内
+    service-url: 
+      defaultZone: http://localhost:7001/eureka
+       
+  instance:
+    instance-id: provider-8002 # 更改  eureka 中 当前 项目的Status的名称
+    prefer-ip-address: true     # 鼠标移动到   eureka 中当前 项目的Status的名称时显示ip
